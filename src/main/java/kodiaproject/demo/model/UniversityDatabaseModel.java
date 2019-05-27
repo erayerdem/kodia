@@ -7,29 +7,31 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "universities")
 @EntityListeners(AuditingEntityListener.class)
-public class UniversityDatabaseModel {
+@NoArgsConstructor
+public class UniversityDatabaseModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty(value ="hibernateid")
-    private Integer id;
+    @JsonProperty(value ="id")
+    private int id;
     @Column(unique = true, nullable = false, name = "api_id")
-   @JsonProperty(value = "id")
+    @JsonProperty(value = "api_id")
     private int apiId;
     @Column(nullable = false, unique = true)
     private String name;
@@ -43,18 +45,21 @@ public class UniversityDatabaseModel {
 
     @Column(nullable = false, name = "founded_at")
     @JsonProperty(value = "founded_at")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+
     private String foundedDate;
     @Column(nullable = false, name = "created_at")
     @CreatedDate
     @Temporal(TemporalType.DATE)
+    @JsonProperty(value = "created_date")
     private Date createdDate;
 
     @Column(nullable = false, name = "updated_at")
     @LastModifiedDate
     @Temporal(TemporalType.DATE)
     private Date updatedDate;
-    @OneToMany(mappedBy = "universityDatabaseModel")
+    @OneToMany(mappedBy = "universityDatabaseModel",fetch = FetchType.EAGER)
+    @JsonProperty(value = "students")
     List<StudentDatabaseModel> studentDatabaseModels;
+
 
 }

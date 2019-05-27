@@ -8,6 +8,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 
 @Data
@@ -15,7 +16,7 @@ import java.sql.Date;
 @NoArgsConstructor
 @Table(name = "students")
 @Entity
-public class StudentDatabaseModel {
+public class StudentDatabaseModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,5 +37,6 @@ public class StudentDatabaseModel {
     @Column(nullable = false, name = "updated_at")
     @LastModifiedDate
     private Date updatedDate;
+
 
 }

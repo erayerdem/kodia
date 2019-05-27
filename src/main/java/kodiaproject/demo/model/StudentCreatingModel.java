@@ -18,5 +18,4 @@ public class StudentCreatingModel implements Serializable {
     @JsonProperty(value = "university")
     private int universityId;
 
-
 }
